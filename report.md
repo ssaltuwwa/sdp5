@@ -139,3 +139,88 @@ The Facade Pattern successfully addresses the complexity of e-commerce order pro
 * Clean code principles application
 * Real-world pattern implementation
 * System design considerations
+
+### 8. UML Diagram
+
+classDiagram
+    class OrderProcessingFacade {
+        -InventoryService inventoryService
+        -PaymentService paymentService
+        -NotificationService notificationService
+        -OrderService orderService
+        +OrderProcessingFacade()
+        +placeOrder(OrderRequest request) OrderResult
+        +notifyShipping(String orderId, String trackingNumber, String customerEmail) void
+    }
+
+    class OrderRequest {
+        -String productId
+        -int quantity
+        -String cardNumber
+        -String customerEmail
+        -String customerName
+        +OrderRequest(String productId, int quantity, String cardNumber, String customerEmail)
+        +OrderRequest(String productId, int quantity, String cardNumber, String customerEmail, String customerName)
+        +getProductId() String
+        +getQuantity() int
+        +getCardNumber() String
+        +getCustomerEmail() String
+        +getCustomerName() String
+    }
+
+    class OrderResult {
+        -boolean success
+        -String orderId
+        -String message
+        -double totalAmount
+        +OrderResult(boolean success, String orderId, String message, double totalAmount)
+        +isSuccess() boolean
+        +getOrderId() String
+        +getMessage() String
+        +getTotalAmount() double
+        +toString() String
+    }
+
+    class InventoryService {
+        +isAvailable(String productId, int quantity) boolean
+        +getProductPrice(String productId) double
+        +updateInventory(String productId, int quantity) void
+    }
+
+    class PaymentService {
+        +processPayment(String cardNumber, double amount) boolean
+        +generateTransactionId() String
+        -maskCardNumber(String cardNumber) String
+    }
+
+    class OrderService {
+        +createOrder(String productId, int quantity, double totalPrice) String
+        +updateOrderStatus(String orderId, String status) void
+    }
+
+    class NotificationService {
+        +sendOrderConfirmation(String email, String orderId) void
+        +sendShippingNotification(String email, String trackingNumber) void
+        +sendPaymentConfirmation(String email, String transactionId) void
+    }
+
+    class ECommerceApp {
+        +main(String[] args) void
+    }
+
+    class ECommerceAppTest {
+        +main(String[] args) void
+        +testSuccessfulOrder() void
+        +testFailedOrderInventory() void
+        +testFailedOrderPayment() void
+    }
+
+    %% Relationships
+    OrderProcessingFacade --> InventoryService
+    OrderProcessingFacade --> PaymentService
+    OrderProcessingFacade --> NotificationService
+    OrderProcessingFacade --> OrderService
+    OrderProcessingFacade --> OrderRequest
+    OrderProcessingFacade --> OrderResult
+    ECommerceApp --> OrderProcessingFacade
+    ECommerceAppTest --> OrderProcessingFacade
