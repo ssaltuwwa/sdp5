@@ -141,7 +141,7 @@ The Facade Pattern successfully addresses the complexity of e-commerce order pro
 * System design considerations
 
 ### 8. UML Diagram
-
+```mermaid
 classDiagram
     class OrderProcessingFacade {
         -InventoryService inventoryService
@@ -224,3 +224,4 @@ classDiagram
     OrderProcessingFacade --> OrderResult
     ECommerceApp --> OrderProcessingFacade
     ECommerceAppTest --> OrderProcessingFacade
+```
